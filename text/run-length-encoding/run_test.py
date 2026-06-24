@@ -9,8 +9,17 @@ def main() -> None:
         original_text = f.read()
         f.close()
     
+    original_lines = original_text.splitlines()
+    clean_line_list = []
+
+    for line in original_lines:
+        line = line.rstrip()
+        clean_line_list.append(line)
+
+    clean_text = "\n".join(clean_line_list)
+    
     encode_start_time = time.perf_counter()
-    compressed = RLE.encode_string(original_text)
+    compressed = RLE.encode_string(clean_text)
     encode_end_time = time.perf_counter()
 
     encode_time = (encode_end_time - encode_start_time) * 1000
@@ -21,6 +30,7 @@ def main() -> None:
 
     with open("results.txt", "w") as f:
         f.write(f"Original Size {len(original_text.encode())}\n")
+        f.write(f"Original Size (Cleaned) {len(clean_text.encode())}\n")
         f.write(("-" * 20) + "\n")
         f.write(f"Compressed Size {len(compressed.encode())}\n")
         f.write(f"Encoding Time {encode_time:.6f} ms\n")
