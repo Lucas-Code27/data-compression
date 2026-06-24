@@ -1,0 +1,1 @@
+# This folder is where you store your test cases and run a compression method's test file to auto run tests on every case you add and generate results
