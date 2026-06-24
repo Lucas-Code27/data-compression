@@ -38,3 +38,6 @@ Compressed: 3A4B2C
 
     Singular characters can just be read as singular characters without needing a count
     ```
+
+## Flaws in my Version
+- Currently in order to allow numbers to be added to text correctly the system will add invisible characters in front of numbers in the original text which in cases where the text is not too repetitive will increase file size when compressing

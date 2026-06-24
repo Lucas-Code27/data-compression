@@ -28,6 +28,16 @@ def main() -> None:
         f.write(compressed)
         f.close()
 
+    decode_start_time = time.perf_counter()
+    decoded = RLE.decode_string(compressed)
+    decode_end_time = time.perf_counter()
+
+    decode_time = (decode_end_time - decode_start_time) * 1000
+
+    with open("decoded.txt", "w") as f:
+        f.write(decoded)
+        f.close()
+
     with open("results.txt", "w") as f:
         f.write(f"Original Size {len(original_text.encode())}\n")
         f.write(f"Original Size (Cleaned) {len(clean_text.encode())}\n")
@@ -35,6 +45,8 @@ def main() -> None:
         f.write(f"Compressed Size {len(compressed.encode())}\n")
         f.write(f"Encoding Time {encode_time:.6f} ms\n")
         f.write(("-" * 20) + "\n")
+        f.write(f"Decoded Size {len(decoded.encode())}\n")
+        f.write(f"Decoding Time {decode_time:.6f} ms\n")
         f.close()
 
     print("Test Complete!")
