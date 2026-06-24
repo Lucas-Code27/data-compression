@@ -14,35 +14,48 @@ def _encode(input: str) -> str:
     if not input:
         return ""
 
-    compressed_data = ""
+    lines = input.splitlines()
 
-    current_char = input[0]
-    count = 1
+    compressed_data_list = []
 
-    for char in input[1:]:
-        if char == current_char:
-            count += 1
-        elif char == " ":
-            if count == 1:
-                compressed_data += current_char
-                current_char = " "
-            else:
-                compressed_data += f"{count}{current_char}"
-                current_char = " "
+    for line in lines:
+        line = line.rstrip() # remove unneeded trailing spaces
 
-            count = 1
-        else:
-            if count == 1:
-                compressed_data += current_char
-                current_char = char
-            else:
-                compressed_data += f"{count}{current_char}"
+        # Check if line is empty before doing anything with it
+        if not line:
+            compressed_data_list.append("")
+            continue
+
+        compressed_data = ""
+        current_char = line[0]
+        count = 1
+
+        for char in line[1:]:
+            if char == current_char:
+                count += 1
+            elif char == " ":
+                if count == 1:
+                    compressed_data += current_char
+                    current_char = " "
+                else:
+                    compressed_data += f"{count}{current_char}"
+                    current_char = " "
+
                 count = 1
-                current_char = char
+            else:
+                if count == 1:
+                    compressed_data += current_char
+                    current_char = char
+                else:
+                    compressed_data += f"{count}{current_char}"
+                    count = 1
+                    current_char = char
+        
+        if count == 1:
+            compressed_data += current_char
+        else:
+            compressed_data += f"{count}{current_char}"
+        
+        compressed_data_list.append(compressed_data)
     
-    if count == 1:
-        compressed_data += current_char
-    else:
-        compressed_data += f"{count}{current_char}"
-    
-    return compressed_data
+    return "\n".join(compressed_data_list)
